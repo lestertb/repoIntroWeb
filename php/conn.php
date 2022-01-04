@@ -2,32 +2,34 @@
 
     function obtener_coneccion()
     {
-        $host = "localhost";
-        $port = "5432";
-        $dbname = "db_introweb";
-        $user = "postgres";
-        $password = "1234";
-        $connection = "host={$host} port={$port} dbname={$dbname} user={$user} password={$password} ";
-        $dbconn = pg_connect($connection);
-        if (!$dbconn) 
+        $serverName = "LESTERTB"; 
+        $uid = "testDB";   
+        $pwd = "1234";  
+        $databaseName = "db_introweb"; 
+
+        $connectionInfo = array( "UID"=>$uid,                            
+                                "PWD"=>$pwd,                            
+                                "Database"=>$databaseName); 
+
+        $conn = sqlsrv_connect( $serverName, $connectionInfo);  
+
+        if (!$conn) 
         {
             echo "[false,{'error':'No se pudo conectar con la base de datos'}]";
             exit;
         }
-        return ($dbconn);
+        return ($conn);
     }
 
-    function ejecutar_query($dbconn,$query)
+    function ejecutar_query($conn,$query)
     {
-        $result = pg_query($dbconn, $query);
+        $result = sqlsrv_query($conn, $query);
         if (!$result) 
         {
-            $result_error=pg_result_error($result);
-            echo "[false,{'error':'No es posible ejecutar la consulta','detalles':'$result_error'}]";
-            exit;
+            echo "Error in statement execution.\n";  
+            die( print_r( sqlsrv_errors(), true));  
         }
         return ($result);
     }
 
-?>
 

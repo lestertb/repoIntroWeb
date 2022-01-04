@@ -2,17 +2,18 @@
     session_start();
     include 'conn.php';
 
-    if(isset($_REQUEST['name']) && isset($_REQUEST['email']) && isset($_REQUEST['password'])){
+    if(isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password'])){
 
         $dbconn = obtener_coneccion();
-        $sql = "insert into usuarios(name,email,password)values('".$_REQUEST['name']."','".$_REQUEST['email']."','".md5($_REQUEST['passw'])."')";
+        $sql = "insert into usuarios(name,email,password)values('".$_POST['name']."','".$_POST['email']."',HASHBYTES('MD5','".$_POST['password']."'))";
         $ret = ejecutar_query($dbconn, $sql);
         if($ret){
                 echo "Data saved Successfully";
         }else{
                 echo "Something Went Wrong";
         }
-        pg_close($conn);
+        sqlsrv_close( $dbconn);
     }
+
 
 ?>

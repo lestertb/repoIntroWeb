@@ -13,23 +13,42 @@ signInButton.addEventListener('click', () => {
 function messages(msg)
 {
     notificador=document.getElementById('messages');
+    notificador.innerHTML="";
     notificador.innerHTML=msg;
     setTimeout(function(htmlobj){htmlobj.innerHTML="";},5000,notificador);
 }
 
-function register(event)
+
+function login(event)
 {
-	console.log("hola")
-	event.preventDeafult();
-	nameUser=document.getElementById('name').value;
-    email=document.getElementById('email').value;
-    password=document.getElementById('password').value;
-    
+    event.preventDefault();
+    email=document.getElementById('email1').value;
+    password=document.getElementById('password1').value;
+
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "../php/register.php", false);
-    var formData = new FormData();
-    formData.append("name", nameUser);
-	formData.append("email", email);
-    formData.append("password", password);
-    xhttp.send(formData);     
+
+    xhttp.onreadystatechange = function() 
+    {
+        if (this.readyState == 4 && this.status == 200) 
+        {
+            respuesta=eval(xhttp.responseText);
+
+            if (respuesta[0]==false)
+            {
+                console.log("Error credenciales");
+                messages(respuesta[1].Error);
+            }
+            else
+            {
+                localStorage.setItem("id_usuario", respuesta[1].id_usuario);
+                localStorage.setItem("email_usuario", respuesta[1].email_usuario);
+            }
+        }
+    };
+
+    xhttp.open('POST', '../php/login.php');
+
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`email=${email}&password=${password}`);     
+    
 }
