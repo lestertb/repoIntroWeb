@@ -1,20 +1,75 @@
+body {
+    background-color: #f7dbb8;
+}
+
 .grid-container {
     display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto;
-    background-color: #2196F3;
+    grid-template-columns: auto auto auto auto auto auto;
+    width: 99%;
     padding: 10px;
 }
 .grid-item {
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.8);
-    padding: 20px;
-    font-size: 30px;
+    background: linear-gradient(to bottom, #a5b41d 8% , #d8e1e9 3%);
+    border: 1px solid rgba(141, 139, 139, 0.8);
+    padding-top: 20px;
+    font-size: 25px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     text-align: center;
-    height: 500px;
+    height: 800px;  
 }
 
-#mydiv {
+.buttonAdd {
+    background-color: #4CAF50;
+    padding: 5px;
+}
+
+.note {
+    padding: 50px;
     position: absolute;
     z-index: 9;
     background-color: #2196F3;
+    box-shadow: 0px 3px 3px black;
   }
+
+/* CSS */
+.button-8 {
+  background-color: #e1ecf4;
+  border-radius: 3px;
+  border: 1px solid #7aa7c7;
+  box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+  box-sizing: border-box;
+  color: #39739d;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.15385;
+  margin-left: 10px;
+  outline: none;
+  padding: 8px .8em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.button-8:hover,
+.button-8:focus {
+  background-color: #b3d3ea;
+  color: #2c5777;
+}
+
+.button-8:focus {
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+}
+
+.button-8:active {
+  background-color: #a0c7e4;
+  box-shadow: none;
+  color: #2c5777;
+}
