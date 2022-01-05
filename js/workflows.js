@@ -1,10 +1,9 @@
 //dragElement(document.getElementById("mydiv"));
 
 function dragElement(elmnt1) {
-
-  console.log(elmnt1);
-
+  
   elmnt = document.getElementById(elmnt1);
+  console.log(document.getElementById(elmnt.id + "header"));
 
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   if (document.getElementById(elmnt.id + "header")) {
@@ -48,39 +47,97 @@ function dragElement(elmnt1) {
 }
 
 var contadorNotas = 1;
+var tarjetaFocus=null;
 
 function addNote(textNote){
   const newNote = document.createElement("div");
-  const text = document.createTextNode(document.getElementById(textNote).value);
+  newNote.setAttribute("onclick","dragElement(id)");
 
-  console.log(text);
+  newNote.innerHTML = '<i class="pin"></i>';
+  
+  newNote.setAttribute("class", "mydiv");
+  newNote.setAttribute("id",contadorNotas + "n");
+  var randomNumber = Math.random()*6|0 || -6;
+  console.log(randomNumber);
+  newNote.setAttribute("style", "top: 345px; left: 855px; transform: rotate("+randomNumber+"deg);")
+
+  const newNote2 = document.createElement("div");
+  newNote2.setAttribute("class", "mydivheader")
+  newNote2.setAttribute("id",contadorNotas + "nheader");
+  
+
+  const newP = document.createElement("p");
+
+  const text = document.createTextNode(document.getElementById(textNote).value);
 
   if (text.textContent === ""){
     alert("Las notas no pueden estar en blanco");
     return
   }
 
-  var color = Math.floor(Math.random() * (4 - 1)) + 1;
-  console.log(color);
-
-  if (color === 1){
-    newNote.setAttribute("style","top: 429px; left: 534px; background: linear-gradient(to bottom, #e7da8f 20% , #faec9b 20%);");
-  }else if (color === 2) {
-    newNote.setAttribute("style","top: 429px; left: 534px; background: linear-gradient(to bottom, #739ebb 20% , #8ec2e4 20%);");
-  }else if (color === 3){
-    newNote.setAttribute("style","top: 429px; left: 534px; background: linear-gradient(to bottom, #cea680 20% , #e4b88e 20%);");
-  }else{
-
-  }
-
-  newNote.setAttribute("id",contadorNotas);
-  newNote.setAttribute("class","note");
-  newNote.setAttribute("onclick","dragElement(id)");
-  //newNote.setAttribute("style","top: 429px; left: 534px; background: #" + randomColor);
+  newNote.addEventListener('click', function () 
+  {
+    tarjetaFocus=this;
+  })
   
   document.body.appendChild(newNote)
-  newNote.appendChild(text)
 
+  newNote.innerHTML += '<input style="position: absolute; bottom:4px; right:4px; width: 30px; height: 20px;" onchange="cambiarColor(this)" type="color">'; 
+
+  newP.innerHTML = '<p contenteditable="true">' + text.textContent + '</p>'
+  newNote.appendChild(newNote2);
+  newNote.appendChild(newP);
+  
   contadorNotas = contadorNotas + 1;
+}
 
+var cantColum = 3;
+
+function addColum(textColum){
+  cantColum = cantColum + 1;
+  console.log(cantColum);
+  const conteiner = document.getElementById('conteiner');
+  const newColum = document.createElement('div');
+  const text = document.createTextNode(document.getElementById(textColum).value);
+
+  if (text.textContent === ""){
+    alert("Los estados no pueden estar sin título");
+    return
+  }
+
+  newColum.setAttribute('class', 'grid-item');
+  newColum.setAttribute('id', cantColum);
+  //newColum.appendChild(text);
+  
+  newColum.innerHTML += '<p contenteditable="true" style="display: inline;">'+ text.textContent + '</p>'
+  newColum.innerHTML += '<button id=' + cantColum + ' onclick="deleteColum(this)" class="button-8" role="button">Eliminar</button>'
+
+  if (cantColum <= 8)
+    conteiner.setAttribute('style', 'grid-template-columns: repeat('+ cantColum +', 1fr);')
+  else
+    conteiner.setAttribute('style', 'grid-template-columns: repeat('+ 8 +', 1fr);')
+
+  conteiner.appendChild(newColum);
+}
+
+function deleteColum(idEliminar) {
+  console.log(cantColum);
+  const columnaEliminar = document.getElementById(idEliminar.id);
+  columnaEliminar.parentNode.removeChild(columnaEliminar);
+
+  cantColum =  cantColum - 1;
+
+  const conteiner = document.getElementById('conteiner');
+  if (cantColum <= 8)
+    conteiner.setAttribute('style', 'grid-template-columns: repeat('+ cantColum +', 1fr);')
+  else
+    conteiner.setAttribute('style', 'grid-template-columns: repeat('+ 8 +', 1fr);')
+}
+
+function cambiarColor(selectorColor){
+  console.log(selectorColor.value );
+  console.log(selectorColor.value - 100);
+  window.localStorage.setItem(tarjetaFocus.id,selectorColor.value)
+  bg=selectorColor.value;
+  tarjetaFocus.style.background=bg;
 }
