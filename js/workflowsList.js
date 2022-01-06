@@ -123,9 +123,10 @@ function workFlowsLogic() {
 
         element.addEventListener("contextmenu", (e) => {
             e.preventDefault();
+            localStorage.setItem("id_workFlow", id);
             modalLogic(id,element) 
             document.getElementById("btnOpen").addEventListener("click", () => {
-                console.log(1);
+                window.location.href="workflows.html"
             });
             
             document.getElementById("btnDelete").addEventListener("click", () => {

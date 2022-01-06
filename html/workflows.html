@@ -12,23 +12,24 @@
         <h1>Bienvenido:
         </h1>
         <div id="conteiner" class="grid-container">
-            <div id=1 class="grid-item">
+            <div id="1" class="grid-item">
                 <p id="p1" contenteditable="true" style="display: inline;">Sin Iniciar</p>
-                <button id=1 onclick="deleteColum(this)" class="button-8" role="button">Eliminar</button>
+                <button id="1" onclick="deleteColum(this)" class="button-8" role="button">Eliminar</button>
             </div>
-            <div id=2 class="grid-item">
+            <div id="2" class="grid-item">
                 <p id="p2" contenteditable="true" style="display: inline;">Iniciado</p>
-                <button id=2 onclick="deleteColum(this)" class="button-8" role="button">Eliminar</button>
+                <button id="2" onclick="deleteColum(this)" class="button-8" role="button">Eliminar</button>
             </div>
-            <div id=3 class="grid-item">
+            <div id="3" class="grid-item">
                 <p id="p3" contenteditable="true" style="display: inline;">Finalizado</p>
-                <button id=3 onclick="deleteColum(this)" class="button-8" role="button">Eliminar</button>
+                <button id="3" onclick="deleteColum(this)" class="button-8" role="button">Eliminar</button>
             </div>
         </div>
         <button onclick="addColum('textColum')" class="button-8" role="button">Agregar Columna</button>
         <input id="textColum" type="text" maxlength="15">
         <button onclick="addNote('textNote')" class="button-8" role="button">Agregar Nota</button>
-        <input id="textNote" type="text" maxlength="100">   
+        <input id="textNote" type="text" maxlength="100">
+        <button onclick="window.location.href='workflowsList.html'" class="button-8" style="position: absolute; right: 10px;">Go back</button>
     </body>
     <script src="../js/workflows.js"></script>
 </html>
