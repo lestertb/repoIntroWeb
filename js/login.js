@@ -40,8 +40,11 @@ function login(event)
             }
             else
             {
-                localStorage.setItem("id_usuario", respuesta[1].id_usuario);
-                localStorage.setItem("email_usuario", respuesta[1].email_usuario);
+                //alert("Login Exitoso")
+                //localStorage.setItem("id_usuario", respuesta[1].id_usuario);
+                //localStorage.setItem("email_usuario", respuesta[1].email_usuario);
+                //getWorkflows();
+                window.location.href="workflowsList.html"
             }
         }
     };

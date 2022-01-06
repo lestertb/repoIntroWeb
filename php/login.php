@@ -13,7 +13,7 @@
     $password=$_REQUEST["password"];
 
     $conn = obtener_coneccion();
-    $result = ejecutar_query($conn, "select id,email from usuarios where email='$email' and password=HASHBYTES('MD5','$password');");
+    $result = ejecutar_query($conn, "select id,email,name from usuarios where email='$email' and password=HASHBYTES('MD5','$password');");
 
 
     if( sqlsrv_has_rows( $result ) != 1 ) {
@@ -25,7 +25,11 @@
        }
         $idUser = sqlsrv_get_field( $result , 0);
         $emailUser = sqlsrv_get_field( $result , 1);
-        echo "[true,{'id_usuario':'$idUser','email_usuario':'$emailUser'}]";
+        $nameUser = sqlsrv_get_field( $result , 2);
+        $_SESSION["id_usuario"] = $idUser;
+        $_SESSION["email_usuario"] = $emailUser;
+        $_SESSION["name_usuario"] = $nameUser;
+        echo "[true,{'id_usuario':'$idUser','email_usuario':'$emailUser','name_usuario':'$nameUser'}]";
     }
    
     sqlsrv_close($conn);
