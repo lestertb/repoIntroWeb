@@ -1,4 +1,9 @@
-//dragElement(document.getElementById("mydiv"));
+  let mapaColumnas= new Map();
+let mapaNotas= new Map();
+var ind = 1;
+let cantColum = 3;
+getPosXYElement2();
+ 
 
 function dragElement(elmnt1) {
   
@@ -43,6 +48,8 @@ function dragElement(elmnt1) {
     /* stop moving when mouse button is released:*/
     document.onmouseup = null;
     document.onmousemove = null;
+    getPosXYElement(elmnt.id);
+    rect = document.getElementById(elmnt.id).getBoundingClientRect();
   }
 
 }
@@ -61,8 +68,6 @@ function addNote(textNote){
   
   newNote.setAttribute("class", "mydiv");
   newNote.setAttribute("id",contadorNotas + "n");
-  newNote.setAttribute("onmouseenter","getPosXYElement(id)");
-  newNote.setAttribute("onmouseleave","getPosXYAnotherElement()");
   var randomNumber = Math.random()*6|0 || -6;
   newNote.setAttribute("style", "top: 345px; left: 855px; transform: rotate("+randomNumber+"deg);")
 
@@ -86,17 +91,16 @@ function addNote(textNote){
     tarjetaFocus=this;
   })
   
-  document.body.appendChild(newNote)
+  document.body.appendChild(newNote);
 
- 
-  newP.innerHTML = '<p contenteditable="true">' + text.textContent + '</p>'
+  newP.innerHTML = '<p contenteditable="false" id="nameColum'+contadorNotas+'"></p>';
+  newP.innerHTML += '<p contenteditable="true">'+text.textContent + '</p>';
   newNote.appendChild(newNote2);
   newNote.appendChild(newP);
   
   contadorNotas = contadorNotas + 1;
 }
 
-var cantColum = 3;
 
 function addColum(textColum){
   cantColum = cantColum + 1;
@@ -112,7 +116,7 @@ function addColum(textColum){
   newColum.setAttribute('class', 'grid-item');
   newColum.setAttribute('id', cantColum);
   
-  newColum.innerHTML += '<p contenteditable="true" style="display: inline;">'+ text.textContent + '</p>'
+  newColum.innerHTML += '<p id="p'+ cantColum+'" contenteditable="true" style="display: inline;">'+ text.textContent + '</p>'
   newColum.innerHTML += '<button id=' + cantColum + ' onclick="deleteColum(this)" class="button-8" role="button">Eliminar</button>'
 
   if (cantColum <= 8)
@@ -121,6 +125,7 @@ function addColum(textColum){
     conteiner.setAttribute('style', 'grid-template-columns: repeat('+ 8 +', 1fr);')
 
   conteiner.appendChild(newColum);
+  getPosXYElement2();
 }
 
 function deleteColum(idEliminar) {
@@ -134,6 +139,7 @@ function deleteColum(idEliminar) {
     conteiner.setAttribute('style', 'grid-template-columns: repeat('+ cantColum +', 1fr);')
   else
     conteiner.setAttribute('style', 'grid-template-columns: repeat('+ 8 +', 1fr);')
+  getPosXYElement2();
 }
 
 function cambiarColor(selectorColor){
@@ -159,13 +165,49 @@ function changeIconClose(idIcon){
 }
 
 var rect;
+function getPosXYElement2(){
+  var index = 1;
+  while (index <= cantColum){
+    rect = document.getElementById(index).getBoundingClientRect();
+    mapaColumnas.set('ID'+index,index);
+    mapaColumnas.set("top"+index,Math.round(rect.top));
+    mapaColumnas.set("right"+index,Math.round(rect.right));
+    mapaColumnas.set("bottom"+index,Math.round(rect.bottom));
+    mapaColumnas.set("left"+index,Math.round(rect.left));
+    index = index + 1;
+  }
+}
+
+var rect;
 function getPosXYElement(id){
   rect = document.getElementById(id).getBoundingClientRect();
-  console.log(rect.top, rect.right, rect.bottom, rect.left);
+  mapaNotas.set('ID'+id,id);
+  mapaNotas.set("top"+id,Math.round(rect.top));
+  mapaNotas.set("right"+id,Math.round(rect.right));
+  mapaNotas.set("bottom"+id,Math.round(rect.bottom));
+  mapaNotas.set("left"+id,Math.round(rect.left));
+  
+  var indiceActual;
+  mapaColumnas.forEach((valor,clave)=> {
+    if(clave[0] === "I"){
+      indiceActual = clave[2];
+      if (Math.round(rect.left) >= mapaColumnas.get("left"+indiceActual)){
+        if(Math.round(rect.right) <= mapaColumnas.get("right"+indiceActual)){
+          const columaActual = document.getElementById("p"+mapaColumnas.get("ID"+indiceActual));
+          const notaEditada = document.getElementById('nameColum'+id[0]);
+          if(notaEditada.innerText === '  '){
+            const text = document.createTextNode(columaActual.innerText);
+            notaEditada.appendChild(text);
+          }else{
+            notaEditada.innerHTML = '';
+            const text = document.createTextNode(columaActual.innerText);
+            notaEditada.appendChild(text);
+          }
+        }else{
+          const notaEditada = document.getElementById('nameColum'+id[0]).innerText = '';
+        }
+      }
+    } 
+  })
 }
-
-function getPosXYAnotherElement(){
-  console.log(rect);
-}
-
 
