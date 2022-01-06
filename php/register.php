@@ -15,5 +15,4 @@
         sqlsrv_close( $dbconn);
     }
 
-
 ?>

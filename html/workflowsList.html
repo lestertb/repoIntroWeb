@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WorkFlowsList</title>
+        <link rel="stylesheet" href="../css/workflowsList.css">
+    </head>
+    <body>
+        <div id="Loggedin" style="display: none;">
+            <div id="app">
+                <button class="add-workflow" type="button">+</button>
+            </div>
+            <br>
+            <button onclick="window.location.href='../php/logout.php'" class="button-8">Logout</button>
+        </div>
+
+        <div id="Loggedout" style="display: none;">
+
+            <h1>Notificación:</h1>
+            <p>Para hacer uso de este apartado debe ingresar al sistema</p>
+            <p>Redireccionando al Login...</p>
+
+        </div>
+
+    </body>
+    <script src="../js/workflowsList.js"></script>
+</html>

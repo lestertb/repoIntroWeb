@@ -26,7 +26,7 @@
         $result = sqlsrv_query($conn, $query);
         if (!$result) 
         {
-            echo "Error in statement execution.\n";  
+            echo "[false,{'Error':'Error de petición a base de datos'}]";
             die( print_r( sqlsrv_errors(), true));  
         }
         return ($result);
