@@ -19,6 +19,10 @@ body {
     height: 750px;  
 }
 
+/*.grid-item:hover{
+  box-shadow: inset 0px 0px 0px 4px rgba(78, 78, 78, 0.6);
+}*/
+
 .buttonAdd {
     background-color: #4CAF50;
     padding: 5px;
@@ -40,7 +44,6 @@ body {
   min-height: 100px;
   
 }
-
 
 .mydivheader {
   padding: 10px;
