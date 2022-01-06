@@ -31,15 +31,22 @@ function getWorkflows() {
             {
                 document.getElementById("Loggedin").setAttribute('style', 'display:block;')
 
-                if (respuesta[1].Error === 'No se encontraron workflows') {
-                    listWorkflows=[];
-                    workFlowsLogic()
+                if (respuesta.length > 1) {
+
+                    if (respuesta[1].Error === 'No se encontraron workflows') {
+                        listWorkflows=[];
+                        workFlowsLogic()
+                    }else{
+                        listWorkflows=respuesta;
+                        workFlowsLogic()
+                    }
+                    if (respuesta[1] != undefined && respuesta[1].Error != undefined) {
+                        alert(respuesta[1].Error)
+                    }
+                    
                 }else{
                     listWorkflows=respuesta;
                     workFlowsLogic()
-                }
-                if (respuesta[1] != undefined && respuesta[1].Error != undefined) {
-                    alert(respuesta[1].Error)
                 }
 
             }
@@ -74,6 +81,9 @@ function workFlowsLogic() {
         if (type ===2) {
             editWorkFlows(workFlows);
         }
+        if (type === 3) {
+            deleteWorkFlowDB(workFlows)
+        }
     }
 
     function createWorkFlowElement(id, description, nombre) {
@@ -101,13 +111,16 @@ function workFlowsLogic() {
     }
 
     function addWorkFlow() {
+        
+        var name = prompt("Digite el nombre del workFlow");
+        var description = prompt("Digite la descripción del workFlow");
         const workFlow = getWorkflow();
         var today = new Date();
         var date = (today.getMonth()+1)+'-'+today.getDate()+'-'+today.getFullYear()
         const workFlowObject = {
             id_workflow: Math.floor(Math.random() * 100000),
-            name:"",
-            description: "",
+            name:name,
+            description: description,
             creation_date: date
         };
 
@@ -128,9 +141,8 @@ function workFlowsLogic() {
     }
 
     function deleteWorkFlow(id, element) {
-        const workFlows = getWorkflow().filter((workFlow) => workFlow.id != id);
-
-        saveWorkFlow(workFlows);
+        const workFlows = getWorkflow().filter((workFlow) => workFlow.id_workflow == id)[0];
+        saveWorkFlow(workFlows,3);
         workflowContainer.removeChild(element);
     }
 
@@ -147,7 +159,7 @@ function insertWorkFlows(newWorkFlow){
     {
         if (this.readyState == 4 && this.status == 200) 
         {   
-            console.log(xhttp.responseText);
+        
             respuesta=eval(xhttp.responseText);
 
             if (respuesta[0]==false)
@@ -167,5 +179,65 @@ function insertWorkFlows(newWorkFlow){
 }
 
 function editWorkFlows(WorkFlows) {
-    console.log(WorkFlows.content);
+    var textName = WorkFlows.content.slice(7);
+    var name = textName.split('Descripcion:')[0];
+    var textdescription = WorkFlows.content.split('Descripcion:');
+    var description = textdescription[1];
+
+    
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() 
+    {
+        if (this.readyState == 4 && this.status == 200) 
+        {   
+           
+            respuesta=eval(xhttp.responseText);
+
+            if (respuesta[0]==false)
+            {
+                console.log(respuesta[1].Message);
+            }
+            else
+            {
+                console.log(respuesta[1].Message);
+            }
+        }
+    };
+
+
+    xhttp.open('POST', '../php/logicWorkflows.php');
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`type=2&id_workflow=${WorkFlows.id_workflow}&name=${name}&description=${description}`);   
+
+}
+
+
+function deleteWorkFlowDB(WorkFlows){
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() 
+    {
+        if (this.readyState == 4 && this.status == 200) 
+        {   
+            
+            respuesta=eval(xhttp.responseText);
+
+            if (respuesta[0]==false)
+            {
+                console.log(respuesta[1].Message);
+            }
+            else
+            {
+                console.log(respuesta[1].Message);
+            }
+        }
+    };
+
+
+    xhttp.open('POST', '../php/logicWorkflows.php');
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`type=3&id_workflow=${WorkFlows.id_workflow}`);   
+
 }

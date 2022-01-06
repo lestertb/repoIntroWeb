@@ -53,13 +53,46 @@
                 }
                 sqlsrv_close( $dbconn);
             }
-
-            //Update
-
-            //Delete
             
         }
 
+        if(isset($_REQUEST['id_workflow']) && isset($_REQUEST['name'])  && isset($_REQUEST['description'])){
+            //Update
+
+            if ($type === "2") {
+                $dbconn = obtener_coneccion();
+                $sql = "update workflows set name = '".$_REQUEST['name']."', description = '".$_REQUEST['description']."' where id_workflow = ".$_REQUEST['id_workflow']."";
+                $ret = ejecutar_query($dbconn, $sql);
+                if($ret){
+                    echo "[true,{'Message':'Se modificó'}]";
+                }else{
+                    echo "[false,{'Message':'Error al modificar'}]";
+                }
+                sqlsrv_close( $dbconn);
+            }
+
+            
+        }
+
+        //Delete
+
+        if(isset($_REQUEST['id_workflow'])){
+            //Update
+
+            if ($type === "3") {
+                $dbconn = obtener_coneccion();
+                $sql = "delete from workflows where id_workflow = '".$_REQUEST['id_workflow']."'";
+                $ret = ejecutar_query($dbconn, $sql);
+                if($ret){
+                    echo "[true,{'Message':'Se eliminó'}]";
+                }else{
+                    echo "[false,{'Message':'Error al eliminar'}]";
+                }
+                sqlsrv_close( $dbconn);
+            }
+
+            
+        }
 
     }
 

@@ -44,5 +44,11 @@ insert into workflows values (5,2,'test555', 'testDescri555', '5/1/2022')
 
 select * from workflows
 
-select id_workflow,name, description from workflows where id_usuario=1
-select id_workflow,name, description from workflows where id_usuario=2
+select id_workflow,name,description, creation_date  from workflows where id_usuario=1
+select id_workflow,name,description, creation_date from workflows where id_usuario=2
+
+
+UPDATE workflows SET name = 'edit1', description = 'edit1' WHERE id_workflow = 16358;
+
+
+--DELETE FROM table_name WHERE condition;
