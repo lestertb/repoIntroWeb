@@ -56,6 +56,30 @@ function getWorkflows() {
     xhttp.send();  
 }
 
+// Get the modal
+var modal;
+function modalLogic() {
+    modal = document.getElementById("myModal");
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    modal.style.display = "block";
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+         modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+        
+    }
+
+}
+
 
 /* Create, edit, delete workFlows*/
 
@@ -97,14 +121,25 @@ function workFlowsLogic() {
             updateWorkFlow(id, element.value);
         });
 
-        element.addEventListener("dblclick", () => {
-            const doDelete = confirm(
-            "El WorkFlow se eliminará ¿Está seguro?"
-            );
+        element.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+            modalLogic(id,element) 
+            document.getElementById("btnOpen").addEventListener("click", () => {
+                console.log(1);
+            });
+            
+            document.getElementById("btnDelete").addEventListener("click", () => {
+                const doDelete = confirm(
+                    "El WorkFlow se eliminará ¿Está seguro?"
+                    );
+        
+                    if (doDelete) {
+                        deleteWorkFlow(id, element);
+                        modal.style.display = "none";
+                        document.location.reload(true);
+                    }
+            });
 
-            if (doDelete) {
-                deleteWorkFlow(id, element);
-            }
         });
 
         return element;
@@ -241,3 +276,5 @@ function deleteWorkFlowDB(WorkFlows){
     xhttp.send(`type=3&id_workflow=${WorkFlows.id_workflow}`);   
 
 }
+
+

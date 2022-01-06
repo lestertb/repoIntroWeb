@@ -8,14 +8,25 @@
         <link rel="stylesheet" href="../css/workflowsList.css">
     </head>
     <body>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Some text in the Modal..</p>
+                <button id="btnOpen" class="button-8">Abrir WorkFlow</button>
+                <button id="btnDelete" class="button-8">Eliminar WorkFlow</button>
+            </div>
+        </div>
+
         <div id="Loggedin" style="display: none;">
             <div id="app">
                 <button class="add-workflow" type="button">+</button>
             </div>
             <br>
-            <p>Nota: Para eliminar un workFlow haga doble click en la que desea eliminar
+            <p style="color:white">Tip: Para abrir las opciones del workflow presionelo con click derecho
             </p>
             <button onclick="window.location.href='../php/logout.php'" class="button-8">Logout</button>
+
         </div>
 
         <div id="Loggedout" style="display: none;">
@@ -25,6 +36,7 @@
             <p>Redireccionando al Login...</p>
 
         </div>
+
 
     </body>
     <script src="../js/workflowsList.js"></script>
