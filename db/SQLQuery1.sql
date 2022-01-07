@@ -110,3 +110,41 @@ select * from colsWorkFlow
 select distinct id_workflow from colsWorkFlow
 
 */
+
+CREATE DATABASE db_introweb
+GO
+use db_introweb
+GO
+create table usuarios
+(
+	id int IDENTITY(1,1) primary key,
+	name varchar (100) not null,
+	email varchar (100) unique,
+	password varchar(256) not null
+);
+GO
+
+CREATE TABLE workflows
+(
+	id_workflow int primary key,
+	id_usuario int,
+	name varchar (100),
+	description varchar (100),
+	creation_date varchar(100)
+	foreign key (id_usuario) references usuarios,
+);
+GO
+
+CREATE TABLE notes
+(
+	id_auto int IDENTITY(1,1) primary key,
+	id_note varchar(10),
+	id_workflow int,
+	description varchar (200),
+	p_top int,
+	p_right int,
+	p_bottom int,
+	p_left int,
+	color varchar (20)
+	foreign key (id_workflow) references workflows
+);
