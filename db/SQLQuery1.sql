@@ -26,7 +26,7 @@ select * from usuarios
 
 select id,email,name from usuarios where email='lestertb123@gmail.com' and password=HASHBYTES('MD5', '1234');
 
-*/
+
 CREATE TABLE workflows
 (
 	id_workflow int primary key,
@@ -52,3 +52,15 @@ UPDATE workflows SET name = 'edit1', description = 'edit1' WHERE id_workflow = 1
 
 
 --DELETE FROM table_name WHERE condition;
+
+*/
+
+CREATE TABLE notes
+(
+	id_note int primary key,
+	id_workflow int,
+	description varchar (200),
+	p_x int,
+	p_y int
+	foreign key (id_workflow) references workflows
+);

@@ -1,4 +1,4 @@
-  let mapaColumnas= new Map();
+let mapaColumnas= new Map();
 let mapaNotas= new Map();
 var ind = 1;
 let cantColum = 3;
@@ -97,8 +97,13 @@ function addNote(textNote){
   newP.innerHTML += '<p contenteditable="true">'+text.textContent + '</p>';
   newNote.appendChild(newNote2);
   newNote.appendChild(newP);
+
+  posicionNote = newNote.getBoundingClientRect();
   
+  insertNoteDB(`${contadorNotas}n`, text.textContent, posicionNote);
+
   contadorNotas = contadorNotas + 1;
+
 }
 
 
@@ -156,24 +161,22 @@ function deleteNote(idNoteDeleted){
 
 function changeIcon(idIcon){
   document.getElementById(idIcon).src = '../assets/trashOpen.png';
-  
 }
 
 function changeIconClose(idIcon){
   document.getElementById(idIcon).src = '../assets/trashClose.png';
-  
 }
 
-var rect;
+var rect2;
 function getPosXYElement2(){
   var index = 1;
   while (index <= cantColum){
-    rect = document.getElementById(index).getBoundingClientRect();
+    rect2 = document.getElementById(index).getBoundingClientRect();
     mapaColumnas.set('ID'+index,index);
-    mapaColumnas.set("top"+index,Math.round(rect.top));
-    mapaColumnas.set("right"+index,Math.round(rect.right));
-    mapaColumnas.set("bottom"+index,Math.round(rect.bottom));
-    mapaColumnas.set("left"+index,Math.round(rect.left));
+    mapaColumnas.set("top"+index,Math.round(rect2.top));
+    mapaColumnas.set("right"+index,Math.round(rect2.right));
+    mapaColumnas.set("bottom"+index,Math.round(rect2.bottom));
+    mapaColumnas.set("left"+index,Math.round(rect2.left));
     index = index + 1;
   }
 }
@@ -186,6 +189,10 @@ function getPosXYElement(id){
   mapaNotas.set("right"+id,Math.round(rect.right));
   mapaNotas.set("bottom"+id,Math.round(rect.bottom));
   mapaNotas.set("left"+id,Math.round(rect.left));
+
+  // mapaNotas.forEach((valor,clave) => {
+  //   console.log(valor + ": " + clave);
+  // });
   
   var indiceActual;
   mapaColumnas.forEach((valor,clave)=> {
@@ -211,3 +218,34 @@ function getPosXYElement(id){
   })
 }
 
+
+//Services db notes
+
+function insertNoteDB(idNote, description, posicionNote){
+
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function() 
+  {
+      if (this.readyState == 4 && this.status == 200) 
+      {   
+      
+          respuesta=eval(xhttp.responseText);
+
+          if (respuesta[0]==false)
+          {
+              console.log(respuesta[1].Message);
+          }
+          else
+          {
+              console.log(respuesta[1].Message);
+          }
+      }
+  };
+
+  xhttp.open('POST', '../php/notes.php');
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  xhttp.send(`type=1&id_note=${idNote}&id_workflow=${window.localStorage.getItem('id_workFlow')}&description=${description}&p_top=${Math.round(posicionNote.top)}&p_right=${Math.round(posicionNote.right)}&p_bottom=${Math.round(posicionNote.bottom)}&p_left=${Math.round(posicionNote.left)}`);   
+
+}
