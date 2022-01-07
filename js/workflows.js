@@ -380,6 +380,8 @@ function addNoteFromDB(existNote){
   
   contadorNotas = contadorNotas + 1;
 
+  tarjetas.push(newNote);
+
   getPosXYElement(existNote.id_note)
 
 }
@@ -390,8 +392,6 @@ function addNoteFromDB(existNote){
 function editPositionNoteDB(elmnt, top, left) {
 
   var p = elmnt.getBoundingClientRect()
-
-  console.log(p.top);
 
   var xhttp = new XMLHttpRequest();
 
