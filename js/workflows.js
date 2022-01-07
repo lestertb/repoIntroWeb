@@ -105,6 +105,7 @@ function addNote(textNote){
   newNote.appendChild(newP);
 
   posicionNote = newNote.getBoundingClientRect();
+
   tarjetas.push(newNote);
   
   insertNoteDB(`${contadorNotas}n`, text.textContent, posicionNote);
@@ -489,98 +490,108 @@ function insertColsWorkFlow() {
 
 //Inicio Speech
 
-const utter = new SpeechSynthesisUtterance();
-
-function lectura_tarjeta(texto){
-  //console.log(htmlObj.texto_lectura);
-  voices = window.speechSynthesis.getVoices()
-  //utter.voice = voices[4];
-  utter.lang = 'es-ES'; 
-  utter.volume = 0.7;
-
-  utter.onend = function(){
-      //alert('La lectura ha finalizado');
-  }
-  utter.text = texto;
-
-  //synth
-  window.speechSynthesis.speak(utter);
-
-}
-
-
-function modoInclusivo(){
-
- for (let x = 0; x < tarjetas.length; x++) {
-     //console.log(tarjetas)
-     texto_lectura="Texto de la tarjeta:" + tarjetas[x].textContent;
-     //console.log(texto_lectura);
-    lectura_tarjeta(texto_lectura);
-   
- }
- 
+try {
   
- }
+
+  function lectura_tarjeta(texto){
+
+    var utter = new SpeechSynthesisUtterance(texto);
+    utter.lang = 'es-ES'; 
+    utter.volume = 0.7;
+
+    utter.onend = function(){
+        //alert('La lectura ha finalizado');
+    }
+    //synth
+  synth.speak(utter);
+
+  }
+
+
+  function modoInclusivo(){
+
+  for (let x = 0; x < tarjetas.length; x++) {
+      //console.log(tarjetas)
+      texto_lectura="Texto de la tarjeta:" + tarjetas[x].textContent;
+      //console.log(texto_lectura);
+      lectura_tarjeta(texto_lectura);
+    
+  }
+  
+    
+  }
 
 
 
-var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
-var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
-var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+  var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+  var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
+  var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
 
-var colors = [ 'Modo inclusivo' , 'modo inclusivo' , 'inclusivo'];
-var grammar = '#JSGF V1.0; grammar colors; public <color> = ' + colors.join(' | ') + ' ;'
+  var colors = [ 'Modo inclusivo' , 'modo inclusivo' , 'inclusivo'];
+  var grammar = '#JSGF V1.0; grammar colors; public <color> = ' + colors.join(' | ') + ' ;'
 
-var recognition = new SpeechRecognition();
-var speechRecognitionList = new SpeechGrammarList();
-speechRecognitionList.addFromString(grammar, 1);
-recognition.grammars = speechRecognitionList;
-recognition.continuous = false;
-recognition.lang = 'en-US';
-recognition.interimResults = false;
-recognition.maxAlternatives = 1;
+  var recognition = new SpeechRecognition();
+  var speechRecognitionList = new SpeechGrammarList();
+  speechRecognitionList.addFromString(grammar, 1);
+  recognition.grammars = speechRecognitionList;
+  recognition.continuous = false;
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
 
-var diagnostic = " ";
+  var diagnostic = " ";
 
-document.body.onclick = function() {
-  recognition.start();
-  console.log('Ready to receive a color command.');
-}
+ /* document.body.onclick = function() {
+    recognition.start();
+    console.log('Ready to receive the command.');
+  }*/
+  const paraHablar = (e) =>{   
+    e.preventDefault();          
+      recognition.start();
+      console.log('Ready to receive the command.');             
+    
+    }
+    //document.body.addEventListener('keyup', paraHablar, true);
+    document.getElementById("inclusiveMode").addEventListener('click', paraHablar, true);
 
-recognition.onresult = function(event) {
-  var color = event.results[0][0].transcript;
-  diagnostic = 'Result received: ' + color + '.';
-  console.log('Confidence: ' + event.results[0][0].confidence);
-  modoInclusivo();
-}
+  recognition.onresult = function(event) {
+    var color = event.results[0][0].transcript;
+    diagnostic = 'Result received: ' + color + '.';
+    console.log('Confidence: ' + event.results[0][0].confidence);
+    modoInclusivo();
+  }
 
-recognition.onspeechend = function() {
-  recognition.stop();
-}
+  recognition.onspeechend = function() {
+    recognition.stop();
+  }
 
-recognition.onnomatch = function(event) {
-  diagnostic.textContent = "I didn't recognise that color.";
-}
+  recognition.onnomatch = function(event) {
+    diagnostic.textContent = "Something went wrong.";
+  }
 
-recognition.onerror = function(event) {
-  diagnostic.textContent = 'Error occurred in recognition: ' + event.error;
-}
+  recognition.onerror = function(event) {
+    diagnostic.textContent = 'Error occurred in recognition: ' + event.error;
+  }
 
 
-let hablar = true;
-let synth = window.speechSynthesis;
-const sonidoTecla = (e) =>{   
-  e.preventDefault();      
-  if(e.keyCode === 32) {      
-    if(hablar){
-      synth.pause()
-      hablar = false
+  let hablar = true;
+  let synth = window.speechSynthesis;
+  const sonidoTecla = (e) =>{   
+    e.preventDefault();      
+    if(e.keyCode === 32) {      
+      if(hablar){
+        synth.pause()
+        hablar = false
+      } 
+      else{
+        synth.resume();       
+        hablar = true 
+      }             
     } 
-    else{
-      synth.resume();       
-      hablar = true 
-    }             
-  } 
-  
-  }
-document.body.addEventListener('keyup', sonidoTecla, true);
+    
+    }
+  document.body.addEventListener('keyup', sonidoTecla, true);
+
+} catch (error) {
+  console.log("Error");
+}
