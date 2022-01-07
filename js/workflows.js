@@ -95,7 +95,7 @@ function addNote(textNote){
   document.body.appendChild(newNote);
 
   newP.innerHTML = '<p contenteditable="false" id="nameColum'+contadorNotas+'"></p>';
-  newP.innerHTML += '<p contenteditable="true">'+text.textContent + '</p>';
+  newP.innerHTML += '<p onkeyup="editDescriDB(this)" contenteditable="true" id="'+contadorNotas+'p">'+text.textContent + '</p>';
   newNote.appendChild(newNote2);
   newNote.appendChild(newP);
 
@@ -351,7 +351,7 @@ function addNoteFromDB(existNote){
   document.body.appendChild(newNote);
 
   newP.innerHTML = '<p contenteditable="false" id="nameColum'+contadorNotas+'"></p>';
-  newP.innerHTML += '<p contenteditable="true">'+text.textContent + '</p>';
+  newP.innerHTML += '<p onkeyup="editDescriDB(this)" contenteditable="true" id="'+contadorNotas+'p">'+text.textContent + '</p>';
   newNote.appendChild(newNote2);
   newNote.appendChild(newP);
 
@@ -436,4 +436,39 @@ function editColorNoteDB(color) {
   xhttp.send(`type=5&id_note=${elmnt.id}&id_workflow=${window.localStorage.getItem('id_workFlow')}&color=${color}`);   
   
 
+}
+
+
+function editDescriDB(target) {
+
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function() 
+  {
+      if (this.readyState == 4 && this.status == 200) 
+      {         
+          respuesta=eval(xhttp.responseText);
+
+          if (respuesta[0]==false)
+          {
+              console.log(respuesta[1].Message);
+          }
+          else
+          {
+              console.log(respuesta[1].Message);
+          }
+      }
+  };
+
+  xhttp.open('POST', '../php/notes.php');
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  
+  xhttp.send(`type=6&id_note=${target.id.replace('p', 'n')}&id_workflow=${window.localStorage.getItem('id_workFlow')}&description=${target.textContent}`);   
+
+}
+
+
+//colsWorflowsLogic
+function insertColsWorkFlow() {
+  console.log("holaa");
 }

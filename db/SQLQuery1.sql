@@ -53,14 +53,60 @@ UPDATE workflows SET name = 'edit1', description = 'edit1' WHERE id_workflow = 1
 
 --DELETE FROM table_name WHERE condition;
 
-*/
+
 
 CREATE TABLE notes
 (
-	id_note int primary key,
+	id_auto int IDENTITY(1,1) primary key,
+	id_note varchar(10),
 	id_workflow int,
 	description varchar (200),
-	p_x int,
-	p_y int
+	p_top int,
+	p_right int,
+	p_bottom int,
+	p_left int,
+	color varchar (20)
 	foreign key (id_workflow) references workflows
 );
+
+select * from notes
+
+select * from workflows
+
+insert into notes values('1n',19904,'texto',849.689208984375,10,10,10)
+
+--drop table notes
+
+select * from notes where id_workflow = 19904
+
+
+--delete from notes where id_note = '1n' and id_workflow = 98996
+
+
+select * from notes where id_workflow = 27594
+
+
+
+
+--update notes set description =  where id_note = '' and id_workflow = ;
+
+
+
+CREATE TABLE colsWorkFlow
+(
+	id_auto int IDENTITY(1,1) primary key,
+	id_col int,
+	id_workflow int,
+	description varchar (200),
+	foreign key (id_workflow) references workflows
+);
+
+--drop table colsWorkFlow
+
+select * from colsWorkFlow
+
+
+
+select distinct id_workflow from colsWorkFlow
+
+*/

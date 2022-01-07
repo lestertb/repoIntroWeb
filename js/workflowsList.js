@@ -117,6 +117,8 @@ function workFlowsLogic() {
         element.value = "Nombre: " +nombre +"\nDescripcion: " + description;
         element.placeholder = "Empty Workflow";
 
+        //getIdsWorkFlows(id);
+        
         element.addEventListener("change", () => {
             updateWorkFlow(id, element.value);
         });
@@ -138,6 +140,7 @@ function workFlowsLogic() {
                         deleteWorkFlow(id, element);
                         modal.style.display = "none";
                         document.location.reload(true);
+                        //deleteColWorkFlowDB()
                     }
             });
 
@@ -278,4 +281,107 @@ function deleteWorkFlowDB(WorkFlows){
 
 }
 
+
+function insertColWorkFlowDB(id_workFlow, index) {
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() 
+    {
+        if (this.readyState == 4 && this.status == 200) 
+        {   
+        
+            respuesta=eval(xhttp.responseText);
+
+            if (respuesta[0]==false)
+            {
+                console.log(respuesta[1].Message);
+            }
+            else
+            {
+                console.log(respuesta[1].Message);
+            }
+        }
+    };
+
+    xhttp.open('POST', '../php/colWorkFlows.php');
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    if (index === 1) {
+        description = "Sin Iniciar";
+        xhttp.send(`type=1&id_workflow=${id_workFlow}&id_col=${index}&description=${description}`);
+    }
+    if (index === 2) {
+        description = "Iniciado";
+        xhttp.send(`type=1&id_workflow=${id_workFlow}&id_col=${index}&description=${description}`);
+    }
+    if (index === 3) {
+        description = "Finalizado";
+        xhttp.send(`type=1&id_workflow=${id_workFlow}&id_col=${index}&description=${description}`);
+    }
+}
+
+
+function deleteColWorkFlowDB() {
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() 
+    {
+        if (this.readyState == 4 && this.status == 200) 
+        {   
+        
+            respuesta=eval(xhttp.responseText);
+
+            if (respuesta[0]==false)
+            {
+                console.log(respuesta[1].Message);
+            }
+            else
+            {
+                console.log(respuesta[1].Message);
+            }
+        }
+    };
+
+    xhttp.open('POST', '../php/colWorkFlows.php');
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`type=2&id_workflow=${window.localStorage.getItem('id_workFlow')}`);
+
+}
+
+contVeces = 1;
+function getIdsWorkFlows(id) {
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() 
+    {
+        if (this.readyState == 4 && this.status == 200) 
+        {           
+            respuesta=eval(xhttp.responseText);
+
+            if (respuesta[0]==true)
+            {
+                for (let index = 1; index < 4; index++) {
+                    insertColWorkFlowDB(id, index);
+                }
+            }
+            else
+            {
+                if (contVeces < 4) {
+                    console.log("hola");
+                    console.log(contVeces);
+                    insertColWorkFlowDB(id, contVeces);
+                    contVeces += 1;
+                }
+                
+            }
+        }
+    };
+
+    xhttp.open('POST', '../php/colWorkFlows.php');
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`type=3`);
+
+}
 

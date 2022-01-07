@@ -101,13 +101,23 @@
         }
     }
 
+    
+    if( isset($_REQUEST["type"]) &&isset($_REQUEST['id_note']) && isset($_REQUEST['id_workflow']) && isset($_REQUEST['description'])){
 
+        $type=$_REQUEST["type"];
 
-
-
-
-
-
+        if ($type === "6") {
+            $dbconn = obtener_coneccion();
+            $sql = "update notes set description = '".$_POST['description']."' where id_note = '".$_POST['id_note']."' and id_workflow = ".$_POST['id_workflow'].";";
+            $ret = ejecutar_query($dbconn, $sql);
+            if($ret){
+                    echo "[true,{'Message':'Se modificó'}]";
+            }else{
+                echo "[false,{'Message':'No se modificó'}]";
+            }
+            sqlsrv_close( $dbconn);
+        }
+    }
 
 
     if( isset($_REQUEST["type"]) &&isset($_REQUEST['id_note']) && isset($_REQUEST['id_workflow'])){

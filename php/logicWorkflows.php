@@ -81,7 +81,7 @@
 
             if ($type === "3") {
                 $dbconn = obtener_coneccion();
-                $sql = "delete from workflows where id_workflow = '".$_REQUEST['id_workflow']."'";
+                $sql = "delete from notes where id_workflow = '".$_REQUEST['id_workflow']."';delete from workflows where id_workflow = '".$_REQUEST['id_workflow']."';";
                 $ret = ejecutar_query($dbconn, $sql);
                 if($ret){
                     echo "[true,{'Message':'Se eliminó'}]";
