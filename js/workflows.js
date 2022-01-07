@@ -57,6 +57,7 @@ function dragElement(elmnt1) {
 
 var contadorNotas = 1;
 var tarjetaFocus=null;
+const tarjetas = [];
 
 function addNote(textNote){
   const newNote = document.createElement("div");
@@ -100,6 +101,7 @@ function addNote(textNote){
   newNote.appendChild(newP);
 
   posicionNote = newNote.getBoundingClientRect();
+  tarjetas.push(newNote);
   
   insertNoteDB(`${contadorNotas}n`, text.textContent, posicionNote);
 
@@ -471,4 +473,83 @@ function editDescriDB(target) {
 //colsWorflowsLogic
 function insertColsWorkFlow() {
   console.log("holaa");
+}
+
+
+function lectura_tarjeta(htmlObj){
+  voices = window.speechSynthesis.getVoices()
+  utter = new SpeechSynthesisUtterance();
+  //utter.voice = voices[4];
+  utter.lang = 'es-ES'; 
+  utter.volume = 0.5;
+
+  utter.onend = function(){
+      //alert('La lectura ha finalizado');
+  }
+  utter.text = htmlObj.texto_lectura;
+  window.speechSynthesis.speak(utter);
+}
+
+
+function modoInclusivo(){
+
+ for (x in tarjetas) {
+   console.log(tarjetas)
+  // console.log(tarjetas[x].id)
+  //console.log(tarjetas[x].textContent);
+
+ 
+
+  texto_lectura="Texto de la tarjeta:" + tarjetas[x].textContent;
+  lectura_tarjeta(this);
+  
+ }
+}
+
+
+var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
+var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+
+var palabra = ['Modo inclusivo'];
+var grammar = '#JSGF V1.0; grammar palabra; public <color> = ' + palabra.join(' | ') + ' ;'
+
+var recognition = new SpeechRecognition();
+var speechRecognitionList = new SpeechGrammarList();
+speechRecognitionList.addFromString(grammar, 1);
+recognition.grammars = speechRecognitionList;
+recognition.continuous = false;
+recognition.lang = 'es-ES';
+recognition.interimResults = false;
+recognition.maxAlternatives = 1;
+
+var diagnostic = "";
+
+document.body.onclick = function() {
+  recognition.start();
+  console.log('Ready to receive a color command.');
+}
+
+recognition.onresult = function(event) {
+  if(color = palabra[0]){
+    var color = event.results[0][0].transcript;
+    diagnostic = 'Result received: ' + color + '.';
+    modoInclusivo();
+  }
+  
+
+  //console.log('Confidence: ' + event.results[0][0].confidence);
+  console.log(color)
+}
+
+recognition.onspeechend = function() {
+  recognition.stop();
+}
+
+recognition.onnomatch = function(event) {
+  diagnostic = "I didn't recognise that color.";
+}
+
+recognition.onerror = function(event) {
+  diagnostic = 'Error occurred in recognition: ' + event.error;
 }
