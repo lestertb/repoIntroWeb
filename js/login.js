@@ -1,5 +1,6 @@
+/*Limpiar localstorage*/
 window.localStorage.clear();
-
+/*Global elements*/
 const signUpButton = document.getElementById('signUp');
 const signInButton = document.getElementById('signIn');
 const container = document.getElementById('container');
@@ -11,7 +12,7 @@ signUpButton.addEventListener('click', () => {
 signInButton.addEventListener('click', () => {
 	container.classList.remove("right-panel-active");
 });
-
+/*Show messages*/
 function messages(msg)
 {
     notificador=document.getElementById('messages');
@@ -20,7 +21,7 @@ function messages(msg)
     setTimeout(function(htmlobj){htmlobj.innerHTML="";},5000,notificador);
 }
 
-
+//Función para realizar el login con php y db
 function login(event)
 {
     event.preventDefault();

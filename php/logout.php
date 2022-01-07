@@ -1,4 +1,6 @@
 <?php
+
+//Logout eliminar variables de session y reload to login
 session_start();
 unset($_SESSION["id_usuario"]);
 unset($_SESSION["email_usuario"]);

@@ -1,3 +1,5 @@
+/*css workFlows*/
+
 body {
     background-color: #f7dbb8;
     overflow: scroll
@@ -16,7 +18,7 @@ body {
     font-size: 25px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     text-align: center;
-    height: 750px;  
+    height: 750px;
 }
 
 /*.grid-item:hover{
@@ -29,116 +31,113 @@ body {
 }
 
 .mydiv {
-  width: 150px;
-  padding: 5px;
-  position: absolute;
-  z-index: 9;
-  background: #eae672;
-  text-align: center;
-  overflow: auto; 
-  resize: both;
-  box-shadow: 0px 3px 3px black;
-  max-width: 200px;
-  max-height: 200px;
-  min-width: 100px;
-  min-height: 100px;
-  
+    width: 150px;
+    padding: 5px;
+    position: absolute;
+    z-index: 9;
+    background: #eae672;
+    text-align: center;
+    overflow: auto;
+    resize: both;
+    box-shadow: 0 3px 3px black;
+    max-width: 200px;
+    max-height: 200px;
+    min-width: 100px;
+    min-height: 100px;
+
 }
 
 .mydivheader {
-  padding: 10px;
-  cursor: move;
-  z-index: 10;  
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
 }
 
-/* CSS */
+/* CSS button */
 .button-8 {
-  background-color: #e1ecf4;
-  border-radius: 3px;
-  border: 1px solid #7aa7c7;
-  box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
-  box-sizing: border-box;
-  color: #39739d;
-  cursor: pointer;
-  display: inline-block;
-  font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.15385;
-  margin-left: 10px;
-  outline: none;
-  padding: 8px .8em;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  vertical-align: baseline;
-  white-space: nowrap;
+    background-color: #e1ecf4;
+    border-radius: 3px;
+    border: 1px solid #7aa7c7;
+    box-shadow: rgba(255, 255, 255, 0.7) 0 1px 0 0 inset;
+    box-sizing: border-box;
+    color: #39739d;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system, system-ui, "Segoe UI", "Liberation Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.15385;
+    margin-left: 10px;
+    outline: none;
+    padding: 8px 0.8em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    white-space: nowrap;
 }
 
 .button-8:hover,
 .button-8:focus {
-  background-color: #b3d3ea;
-  color: #2c5777;
+    background-color: #b3d3ea;
+    color: #2c5777;
 }
 
 .button-8:focus {
-  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+    box-shadow: 0 0 0 4px rgba(0, 149, 255, 0.15);
 }
 
 .button-8:active {
-  background-color: #a0c7e4;
-  box-shadow: none;
-  color: #2c5777;
+    background-color: #a0c7e4;
+    box-shadow: none;
+    color: #2c5777;
 }
-
+/*Format pin*/
 .pin {
-  margin-top: 27px;
-  position: relative;
-  background-color: #aaa;
-  display: block;
-  height: 10px;
-  width: 2px;
-  position: absolute;
-  left: 50%;
-  top: -15px;
-  z-index: 1;
+    margin-top: 27px;
+    position: relative;
+    background-color: #aaa;
+    display: block;
+    height: 10px;
+    width: 2px;
+    position: absolute;
+    left: 50%;
+    top: -15px;
+    z-index: 1;
 }
 
 .pin:after {
-  background-color: #A31;
-  background-image: radial-gradient(25% 25%, circle, hsla(0,0%,100%,.3), hsla(0,0%,0%,.3));
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 1px hsla(0,0%,0%,.1),
-              inset 3px 3px 3px hsla(0,0%,100%,.2),
-              inset -3px -3px 3px hsla(0,0%,0%,.2),
-              12px 3px 3px hsla(0,0%,0%,.15);
-  content: '';
-  height: 12px;
-  left: -5px;
-  position: absolute;
-  top: -8px;
-  width: 12px;
+    background-color: #A31;
+    background-image: radial-gradient(25% 25%, circle, hsla(0,0%,100%,0.3), hsla(0,0%,0%,0.3));
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px hsla(0, 0%, 0%, 0.1), inset 3px 3px 3px hsla(0, 0%, 100%, 0.2), inset -3px -3px 3px hsla(0, 0%, 0%, 0.2), 12px 3px 3px hsla(0, 0%, 0%, 0.15);
+    content: '';
+    height: 12px;
+    left: -5px;
+    position: absolute;
+    top: -8px;
+    width: 12px;
 }
 
 .pin:before {
-  background-color: hsla(0,0%,0%,0.1);
-  box-shadow: 0 0 .25em hsla(0,0%,0%,.1);
-  content: '';
-  height: 9px;
-  width: 2px;
-  left: 0;
-  position: absolute;
-  transform: rotate(57.5deg);
-  -moz-transform: rotate(57.5deg);
-  -webkit-transform: rotate(57.5deg);
-  -o-transform: rotate(57.5deg);
-  -ms-transform: rotate(57.5deg);
-  transform-origin: 50% 100%;
-  -moz-transform-origin: 50% 100%;
-  -webkit-transform-origin: 50% 100%;
-  -ms-transform-origin: 50% 100%;
-  -o-transform-origin: 50% 100%;
+    background-color: hsla(0, 0%, 0%, 0.1);
+    box-shadow: 0 0 0.25em hsla(0, 0%, 0%, 0.1);
+    content: '';
+    height: 9px;
+    width: 2px;
+    left: 0;
+    position: absolute;
+    transform: rotate(57.5deg);
+    -moz-transform: rotate(57.5deg);
+    -webkit-transform: rotate(57.5deg);
+    -o-transform: rotate(57.5deg);
+    -ms-transform: rotate(57.5deg);
+    transform-origin: 50% 100%;
+    -moz-transform-origin: 50% 100%;
+    -webkit-transform-origin: 50% 100%;
+    -ms-transform-origin: 50% 100%;
+    -o-transform-origin: 50% 100%;
 }

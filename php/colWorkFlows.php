@@ -1,5 +1,7 @@
 <?php
+    //Iniciar session
     session_start();
+    //Include conexion db
     include 'conn.php';
 
     if (!isset($_SESSION["id_usuario"]))

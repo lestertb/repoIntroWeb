@@ -1,16 +1,17 @@
+/*CSS workflowlist*/
 body {
     margin: 0;
     background: #009578;
-  }
-  
-  #app {
+}
+
+#app {
     display: grid;
     grid-template-columns: repeat(auto-fill, 200px);
     padding: 24px;
     gap: 24px;
-  }
-  
-  .workflow {
+}
+
+.workflow {
     height: 200px;
     box-sizing: border-box;
     padding: 16px;
@@ -20,9 +21,9 @@ body {
     resize: none;
     font-family: sans-serif;
     font-size: 16px;
-  }
-  
-  .add-workflow {
+}
+
+.add-workflow {
     height: 200px;
     border: none;
     outline: none;
@@ -32,29 +33,29 @@ body {
     color: rgba(0, 0, 0, 0.5);
     cursor: pointer;
     transition: background 0.2s;
-  }
-  
-  .add-workflow:hover {
-    background: rgba(0, 0, 0, 0.2);
-  }
-  
+}
 
-  .button-8 {
+.add-workflow:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/*Format button*/
+.button-8 {
     background-color: #e1ecf4;
     border-radius: 3px;
     border: 1px solid #7aa7c7;
-    box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+    box-shadow: rgba(255, 255, 255, 0.7) 0 1px 0 0 inset;
     box-sizing: border-box;
     color: #39739d;
     cursor: pointer;
     display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+    font-family: -apple-system, system-ui, "Segoe UI", "Liberation Sans", sans-serif;
     font-size: 13px;
     font-weight: 400;
     line-height: 1.15385;
     margin-left: 10px;
     outline: none;
-    padding: 8px .8em;
+    padding: 8px 0.8em;
     position: relative;
     text-align: center;
     text-decoration: none;
@@ -63,60 +64,60 @@ body {
     touch-action: manipulation;
     vertical-align: baseline;
     white-space: nowrap;
-  }
-  
-  .button-8:hover,
-  .button-8:focus {
+}
+
+.button-8:hover,
+.button-8:focus {
     background-color: #b3d3ea;
     color: #2c5777;
-  }
-  
-  .button-8:focus {
-    box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
-  }
-  
-  .button-8:active {
+}
+
+.button-8:focus {
+    box-shadow: 0 0 0 4px rgba(0, 149, 255, 0.15);
+}
+
+.button-8:active {
     background-color: #a0c7e4;
     box-shadow: none;
     color: #2c5777;
-  }
-  
-  
+}
+
+
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 /* Modal Content */
 .modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 30%;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
 }
 
 /* The Close Button */
 .close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }

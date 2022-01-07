@@ -1,20 +1,20 @@
 <?php
-
+    //Iniciar session
     session_start();
+    //Include conexion db
     include 'conn.php';
-
+    //Verificar login
     if (!isset($_REQUEST["email"]) && !isset($_REQUEST["password"]))
     {
         echo ("[false,{'Error':'Debe enviar los parámetros email y password'}]");
         exit();
     }
-
+    //Variables
     $email=$_REQUEST["email"];
     $password=$_REQUEST["password"];
 
     $conn = obtener_coneccion();
     $result = ejecutar_query($conn, "select id,email,name from usuarios where email='$email' and password=HASHBYTES('MD5','$password');");
-
 
     if( sqlsrv_has_rows( $result ) != 1 ) {
         echo "[false,{'Error':'Las credenciales del usuario no son válidas'}]";

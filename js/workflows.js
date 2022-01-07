@@ -238,7 +238,7 @@ function getPosXYElement(id){
 
 //Services db notes
 
-
+//obtener notas
 function getNotesDB(){
 
   var xhttp = new XMLHttpRequest();
@@ -276,7 +276,7 @@ function getNotesDB(){
 getNotesDB()
 
 
-
+//insertar notas
 function insertNoteDB(idNote, description, posicionNote){
 
   var xhttp = new XMLHttpRequest();
@@ -305,7 +305,7 @@ function insertNoteDB(idNote, description, posicionNote){
   xhttp.send(`type=1&id_note=${idNote}&id_workflow=${window.localStorage.getItem('id_workFlow')}&description=${description}&p_top=${Math.round(posicionNote.top)}&p_right=${Math.round(posicionNote.right)}&p_bottom=${Math.round(posicionNote.bottom)}&p_left=${Math.round(posicionNote.left)}&color=#eae672`);   
 
 }
-
+//delete notas
 function deleteNoteDB(idNote){
 
   var xhttp = new XMLHttpRequest();
@@ -334,7 +334,7 @@ function deleteNoteDB(idNote){
 
 }
 
-
+//Crear notas obtenidas desde la base de datos
 function addNoteFromDB(existNote){
   const newNote = document.createElement("div");
   newNote.setAttribute("onclick","dragElement(id)");
@@ -387,7 +387,7 @@ function addNoteFromDB(existNote){
 }
 
 
-//Editar
+//Editar nota
 
 function editPositionNoteDB(elmnt, top, left) {
 
@@ -421,7 +421,7 @@ function editPositionNoteDB(elmnt, top, left) {
   
 }
 
-
+//Editar color de nota
 function editColorNoteDB(color) {
   
 
@@ -452,7 +452,7 @@ function editColorNoteDB(color) {
 
 }
 
-
+//Editar descripcion
 function editDescriDB(target) {
 
   var xhttp = new XMLHttpRequest();
@@ -487,55 +487,60 @@ function insertColsWorkFlow() {
   console.log("holaa");
 }
 
+//Inicio Speech
 
-function lectura_tarjeta(htmlObj){
+const utter = new SpeechSynthesisUtterance();
+
+function lectura_tarjeta(texto){
+  //console.log(htmlObj.texto_lectura);
   voices = window.speechSynthesis.getVoices()
-  utter = new SpeechSynthesisUtterance();
   //utter.voice = voices[4];
   utter.lang = 'es-ES'; 
-  utter.volume = 0.5;
+  utter.volume = 0.7;
 
   utter.onend = function(){
       //alert('La lectura ha finalizado');
   }
-  utter.text = htmlObj.texto_lectura;
+  utter.text = texto;
+
+  //synth
   window.speechSynthesis.speak(utter);
+
 }
 
 
 function modoInclusivo(){
 
- for (x in tarjetas) {
-   console.log(tarjetas)
-  // console.log(tarjetas[x].id)
-  //console.log(tarjetas[x].textContent);
-
+ for (let x = 0; x < tarjetas.length; x++) {
+     //console.log(tarjetas)
+     texto_lectura="Texto de la tarjeta:" + tarjetas[x].textContent;
+     //console.log(texto_lectura);
+    lectura_tarjeta(texto_lectura);
+   
+ }
  
-
-  texto_lectura="Texto de la tarjeta:" + tarjetas[x].textContent;
-  lectura_tarjeta(this);
   
  }
-}
+
 
 
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
 var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
 var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
 
-var palabra = ['Modo inclusivo'];
-var grammar = '#JSGF V1.0; grammar palabra; public <color> = ' + palabra.join(' | ') + ' ;'
+var colors = [ 'Modo inclusivo' , 'modo inclusivo' , 'inclusivo'];
+var grammar = '#JSGF V1.0; grammar colors; public <color> = ' + colors.join(' | ') + ' ;'
 
 var recognition = new SpeechRecognition();
 var speechRecognitionList = new SpeechGrammarList();
 speechRecognitionList.addFromString(grammar, 1);
 recognition.grammars = speechRecognitionList;
 recognition.continuous = false;
-recognition.lang = 'es-ES';
+recognition.lang = 'en-US';
 recognition.interimResults = false;
 recognition.maxAlternatives = 1;
 
-var diagnostic = "";
+var diagnostic = " ";
 
 document.body.onclick = function() {
   recognition.start();
@@ -543,15 +548,10 @@ document.body.onclick = function() {
 }
 
 recognition.onresult = function(event) {
-  if(color = palabra[0]){
-    var color = event.results[0][0].transcript;
-    diagnostic = 'Result received: ' + color + '.';
-    modoInclusivo();
-  }
-  
-
-  //console.log('Confidence: ' + event.results[0][0].confidence);
-  console.log(color)
+  var color = event.results[0][0].transcript;
+  diagnostic = 'Result received: ' + color + '.';
+  console.log('Confidence: ' + event.results[0][0].confidence);
+  modoInclusivo();
 }
 
 recognition.onspeechend = function() {
@@ -559,9 +559,28 @@ recognition.onspeechend = function() {
 }
 
 recognition.onnomatch = function(event) {
-  diagnostic = "I didn't recognise that color.";
+  diagnostic.textContent = "I didn't recognise that color.";
 }
 
 recognition.onerror = function(event) {
-  diagnostic = 'Error occurred in recognition: ' + event.error;
+  diagnostic.textContent = 'Error occurred in recognition: ' + event.error;
 }
+
+
+let hablar = true;
+let synth = window.speechSynthesis;
+const sonidoTecla = (e) =>{   
+  e.preventDefault();      
+  if(e.keyCode === 32) {      
+    if(hablar){
+      synth.pause()
+      hablar = false
+    } 
+    else{
+      synth.resume();       
+      hablar = true 
+    }             
+  } 
+  
+  }
+document.body.addEventListener('keyup', sonidoTecla, true);

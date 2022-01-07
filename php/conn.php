@@ -1,5 +1,5 @@
 <?php
-
+    //Realizar conexion con las variables de mssql
     function obtener_coneccion()
     {
         $serverName = "LESTERTB"; 
@@ -20,7 +20,7 @@
         }
         return ($conn);
     }
-
+    //Ejecutar querys
     function ejecutar_query($conn,$query)
     {
         $result = sqlsrv_query($conn, $query);

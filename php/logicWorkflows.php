@@ -1,14 +1,15 @@
 <?php
+    //Iniciar session
     session_start();
-
+    //Include conexion a db
     include 'conn.php';
-
+    //Verificar login
     if (!isset($_SESSION["id_usuario"]))
     {
         echo ("[false,{'Error':'El usuario no ha realizado login'}]");
         exit();
     }
-
+    //Get
     if (!isset($_REQUEST["type"]))
     {
         $id_usuario=$_SESSION["id_usuario"];

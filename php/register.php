@@ -1,7 +1,9 @@
 <?php
+    //Iniciar sessions
     session_start();
+    //Include db conexion
     include 'conn.php';
-
+    //Verificar parametros y realizar el reload si la info es correcta o no
     if(isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password'])){
 
         $dbconn = obtener_coneccion();

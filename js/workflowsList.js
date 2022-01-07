@@ -1,4 +1,4 @@
-
+//Función mostrar mensajes
 function messages(msg)
 {
     notificador=document.getElementById('messages');
@@ -7,11 +7,14 @@ function messages(msg)
     setTimeout(function(htmlobj){htmlobj.innerHTML="";},5000,notificador);
 }
 
+//Sleep timer
 function sleep (time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }
 
+//Lista de workFlos
 listWorkflows = [];
+//Obtener workflows db
 function getWorkflows() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() 
@@ -81,7 +84,7 @@ function modalLogic() {
 }
 
 
-/* Create, edit, delete workFlows*/
+/* Create, edit, delete workFlows logic*/
 
 function workFlowsLogic() {
     const workflowContainer = document.getElementById("app");
@@ -189,7 +192,7 @@ function workFlowsLogic() {
 
 getWorkflows() 
 
-
+//Insert workflows db
 function insertWorkFlows(newWorkFlow){
 
     var xhttp = new XMLHttpRequest();
@@ -216,7 +219,7 @@ function insertWorkFlows(newWorkFlow){
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(`type=1&id_workflow=${newWorkFlow.id_workflow}&name=${newWorkFlow.name}&description=${newWorkFlow.description}&creation_date=${newWorkFlow.creation_date}`);     
 }
-
+//Edit workflows db
 function editWorkFlows(WorkFlows) {
     var textName = WorkFlows.content.slice(7);
     var name = textName.split('Descripcion:')[0];
@@ -251,7 +254,7 @@ function editWorkFlows(WorkFlows) {
 
 }
 
-
+//Delete workflows db
 function deleteWorkFlowDB(WorkFlows){
 
     var xhttp = new XMLHttpRequest();
@@ -281,7 +284,7 @@ function deleteWorkFlowDB(WorkFlows){
 
 }
 
-
+//Insert colworkflows db
 function insertColWorkFlowDB(id_workFlow, index) {
 
     var xhttp = new XMLHttpRequest();
@@ -320,7 +323,7 @@ function insertColWorkFlowDB(id_workFlow, index) {
     }
 }
 
-
+//delete  colworkflows db
 function deleteColWorkFlowDB() {
 
     var xhttp = new XMLHttpRequest();
@@ -348,7 +351,7 @@ function deleteColWorkFlowDB() {
     xhttp.send(`type=2&id_workflow=${window.localStorage.getItem('id_workFlow')}`);
 
 }
-
+//Get colworkflows db
 contVeces = 1;
 function getIdsWorkFlows(id) {
 

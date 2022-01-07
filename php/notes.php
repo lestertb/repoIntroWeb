@@ -1,7 +1,9 @@
 <?php
+    //Iniciar session
     session_start();
+    //Include conexion a db
     include 'conn.php';
-
+    //Verificar login
     if (!isset($_SESSION["id_usuario"]))
     {
         echo ("[false,{'Error':'El usuario no ha realizado login'}]");
@@ -83,7 +85,7 @@
             sqlsrv_close( $dbconn);
         }
     }
-
+    //Update
     if( isset($_REQUEST["type"]) &&isset($_REQUEST['id_note']) && isset($_REQUEST['id_workflow']) && isset($_REQUEST['color'])){
 
         $type=$_REQUEST["type"];
@@ -101,7 +103,7 @@
         }
     }
 
-    
+    //update
     if( isset($_REQUEST["type"]) &&isset($_REQUEST['id_note']) && isset($_REQUEST['id_workflow']) && isset($_REQUEST['description'])){
 
         $type=$_REQUEST["type"];
@@ -119,7 +121,7 @@
         }
     }
 
-
+    //delete
     if( isset($_REQUEST["type"]) &&isset($_REQUEST['id_note']) && isset($_REQUEST['id_workflow'])){
 
         $type=$_REQUEST["type"];
