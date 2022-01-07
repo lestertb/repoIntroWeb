@@ -1,10 +1,12 @@
-let mapaColumnas= new Map();
-let mapaNotas= new Map();
+/* Variables globales */
+let mapaColumnas= new Map(); //Almacena la información de cada una de las columnas generadas en el workflow
+let mapaNotas= new Map();    //Almacena la información de cada una de las notas generadas en el workflow
 var ind = 1;
-let cantColum = 3;
-getPosXYElement2();
+let cantColum = 3;           //Variable que indica que ya hay 3 columna generadas inicialmente en cada workflow
+getPosXYElement2();          //Función que guarda en "mapaColumnas (linea 3) la información de las columnas generadas inicialmente" 
  
-
+/* Función encangada de identificar cuando una nota es seleccionada con el mose, además de calcular la posición en tiempo real
+   por donde se va desplasando, esto hasta soltar el click, indicando la posición final obtenida */
 function dragElement(elmnt1) {
   
   elmnt = document.getElementById(elmnt1);
@@ -55,10 +57,12 @@ function dragElement(elmnt1) {
 
 }
 
+/* Variables encargadas de llevar el conteo de las notas creadas y de si se hizo o no cambio de color a la nota */
 var contadorNotas = 1;
 var tarjetaFocus=null;
 const tarjetas = [];
 
+/* Función encargada de generar dinámicamente cada una de las notas indicadas */
 function addNote(textNote){
   const newNote = document.createElement("div");
   newNote.setAttribute("onclick","dragElement(id)");
@@ -109,7 +113,7 @@ function addNote(textNote){
 
 }
 
-
+/* Función encargada de generar cada una de las columnas del workflow, además de actualizar sus posiciones en "mapaColumnas" (linea 3) */
 function addColum(textColum){
   cantColum = cantColum + 1;
   const conteiner = document.getElementById('conteiner');
@@ -136,6 +140,7 @@ function addColum(textColum){
   getPosXYElement2();
 }
 
+/* Función que elimina del Dom la colunma indicada, desapareciendo esta del workflow */
 function deleteColum(idEliminar) {
   const columnaEliminar = document.getElementById(idEliminar.id);
   columnaEliminar.parentNode.removeChild(columnaEliminar);
@@ -150,6 +155,7 @@ function deleteColum(idEliminar) {
   getPosXYElement2();
 }
 
+/* Función encargada de generar el cambio de color de forma manual en las notas */
 function cambiarColor(selectorColor){
   window.localStorage.setItem(tarjetaFocus.id,selectorColor.value)
   bg=selectorColor.value;
@@ -157,21 +163,25 @@ function cambiarColor(selectorColor){
   editColorNoteDB(bg);
 }
 
-
+/* Función encargada de eliminar del Dom la nota indicada */
 function deleteNote(idNoteDeleted){
   const notaEliminada = document.getElementById(idNoteDeleted+'n');
   notaEliminada.parentNode.removeChild(notaEliminada);
   deleteNoteDB(idNoteDeleted+'n');
 }
 
+/* Función que cambia el ícono de borrado de la nota */
 function changeIcon(idIcon){
   document.getElementById(idIcon).src = '../assets/trashOpen.png';
 }
 
+/* Función que cambia el ícono de borrado de la nota */
 function changeIconClose(idIcon){
   document.getElementById(idIcon).src = '../assets/trashClose.png';
 }
 
+/* Función encargada de obtener la posicion de las columnas del workflow para ser almacenadas en "mapaColumna" y asi poder comparar con esto donde
+   están las notas */
 var rect2;
 function getPosXYElement2(){
   var index = 1;
@@ -186,6 +196,8 @@ function getPosXYElement2(){
   }
 }
 
+/* Función encargada de obtener la posicion de las notas del workflow, también se encarga de comparar la posición de las notas con las columnas, y dependiendo de donde
+   se encuentre cada nota, le asigna al título el nombre de la columna del workflow donde se encuentra*/
 var rect;
 function getPosXYElement(id){
   rect = document.getElementById(id).getBoundingClientRect();
