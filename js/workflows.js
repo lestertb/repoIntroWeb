@@ -42,6 +42,7 @@ function dragElement(elmnt1) {
     // set the element's new position:
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    editPositionNoteDB(elmnt, (elmnt.offsetTop - pos2) , (elmnt.offsetLeft - pos1));
   }
 
   function closeDragElement() {
@@ -151,12 +152,14 @@ function cambiarColor(selectorColor){
   window.localStorage.setItem(tarjetaFocus.id,selectorColor.value)
   bg=selectorColor.value;
   tarjetaFocus.style.background=bg;
+  editColorNoteDB(bg);
 }
 
 
 function deleteNote(idNoteDeleted){
   const notaEliminada = document.getElementById(idNoteDeleted+'n');
   notaEliminada.parentNode.removeChild(notaEliminada);
+  deleteNoteDB(idNoteDeleted+'n');
 }
 
 function changeIcon(idIcon){
@@ -221,6 +224,45 @@ function getPosXYElement(id){
 
 //Services db notes
 
+
+function getNotesDB(){
+
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function() 
+  {
+      if (this.readyState == 4 && this.status == 200) 
+      {   
+      
+          respuesta=eval(xhttp.responseText);
+    
+          if (respuesta[0]==true)
+          {
+              console.log(respuesta[1].Message);
+          }
+          else
+          {
+              //Crear note
+
+              for (let index = 0; index < respuesta.length; index++) {
+                  addNoteFromDB(respuesta[index]);
+              }
+
+          }
+      }
+  };
+
+  xhttp.open('POST', '../php/notes.php');
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  xhttp.send(`type=0&id_workflow=${window.localStorage.getItem('id_workFlow')}`);    
+
+}
+
+getNotesDB()
+
+
+
 function insertNoteDB(idNote, description, posicionNote){
 
   var xhttp = new XMLHttpRequest();
@@ -246,6 +288,152 @@ function insertNoteDB(idNote, description, posicionNote){
   xhttp.open('POST', '../php/notes.php');
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-  xhttp.send(`type=1&id_note=${idNote}&id_workflow=${window.localStorage.getItem('id_workFlow')}&description=${description}&p_top=${Math.round(posicionNote.top)}&p_right=${Math.round(posicionNote.right)}&p_bottom=${Math.round(posicionNote.bottom)}&p_left=${Math.round(posicionNote.left)}`);   
+  xhttp.send(`type=1&id_note=${idNote}&id_workflow=${window.localStorage.getItem('id_workFlow')}&description=${description}&p_top=${Math.round(posicionNote.top)}&p_right=${Math.round(posicionNote.right)}&p_bottom=${Math.round(posicionNote.bottom)}&p_left=${Math.round(posicionNote.left)}&color=#eae672`);   
+
+}
+
+function deleteNoteDB(idNote){
+
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function() 
+  {
+      if (this.readyState == 4 && this.status == 200) 
+      {         
+          respuesta=eval(xhttp.responseText);
+
+          if (respuesta[0]==false)
+          {
+              console.log(respuesta[1].Message);
+          }
+          else
+          {
+              console.log(respuesta[1].Message);
+          }
+      }
+  };
+
+  xhttp.open('POST', '../php/notes.php');
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  xhttp.send(`type=3&id_note=${idNote}&id_workflow=${window.localStorage.getItem('id_workFlow')}`);   
+
+}
+
+
+function addNoteFromDB(existNote){
+  const newNote = document.createElement("div");
+  newNote.setAttribute("onclick","dragElement(id)");
+  newNote.setAttribute("tabindex","0");
+
+  newNote.innerHTML = '<img style="position: absolute; bottom:75%; right:4px; width:30px;height:30px;" id="'+ contadorNotas +'icon" src="../assets/trashClose.png" alt="" onmouseenter="changeIcon(id)" onmouseleave="changeIconClose(id)" onclick="deleteNote('+ contadorNotas +'n)"></img>';
+  newNote.innerHTML += '<input style="position: absolute; bottom:4px; right:4px; width: 30px; height: 20px;" onchange="cambiarColor(this)" type="color">'; 
+  newNote.innerHTML += '<i class="pin"></i>';
+  
+  newNote.setAttribute("class", "mydiv");
+  newNote.setAttribute("id",contadorNotas + "n");
+  var randomNumber = Math.random()*6|0 || -6;
+  newNote.setAttribute("style", "top: 345px; left: 855px; transform: rotate("+randomNumber+"deg);")
+
+  const newNote2 = document.createElement("div");
+  newNote2.setAttribute("class", "mydivheader")
+  newNote2.setAttribute("id",contadorNotas + "nheader");
+
+  const newP = document.createElement("p");
+
+  const text = document.createTextNode(existNote.description);
+
+  newNote.addEventListener('click', function () 
+  {
+    tarjetaFocus=this;
+  })
+  
+  document.body.appendChild(newNote);
+
+  newP.innerHTML = '<p contenteditable="false" id="nameColum'+contadorNotas+'"></p>';
+  newP.innerHTML += '<p contenteditable="true">'+text.textContent + '</p>';
+  newNote.appendChild(newNote2);
+  newNote.appendChild(newP);
+
+  
+
+  newNote.style.top = (existNote.p_top) + "px";
+  //newNote.style.bottom = (newNote.offsetBottom - existNote.p_bottom) + "px";
+  newNote.style.left = (existNote.p_left) + "px";
+  //newNote.style.right = (newNote.off -  existNote.p_right) + "px";
+
+  newNote.style.background=existNote.color;
+  
+  contadorNotas = contadorNotas + 1;
+
+  getPosXYElement(existNote.id_note)
+
+}
+
+
+//Editar
+
+function editPositionNoteDB(elmnt, top, left) {
+
+  var p = elmnt.getBoundingClientRect()
+
+  console.log(p.top);
+
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function() 
+  {
+      if (this.readyState == 4 && this.status == 200) 
+      {         
+
+          respuesta=eval(xhttp.responseText);
+
+          if (respuesta[0]==false)
+          {
+              console.log(respuesta[1].Message);
+          }
+          else
+          {
+              console.log(respuesta[1].Message);
+          }
+      }
+  };
+
+  xhttp.open('POST', '../php/notes.php');
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  
+
+  xhttp.send(`type=4&id_note=${elmnt.id}&id_workflow=${window.localStorage.getItem('id_workFlow')}&p_top=${Math.round(top)}&p_bottom=${Math.round(p.bottom)}&p_left=${Math.round(left)}&p_right=${Math.round(p.right)}`);   
+  
+}
+
+
+function editColorNoteDB(color) {
+  
+
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function() 
+  {
+      if (this.readyState == 4 && this.status == 200) 
+      {         
+          respuesta=eval(xhttp.responseText);
+
+          if (respuesta[0]==false)
+          {
+              console.log(respuesta[1].Message);
+          }
+          else
+          {
+              console.log(respuesta[1].Message);
+          }
+      }
+  };
+
+  xhttp.open('POST', '../php/notes.php');
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  
+  xhttp.send(`type=5&id_note=${elmnt.id}&id_workflow=${window.localStorage.getItem('id_workFlow')}&color=${color}`);   
+  
 
 }
